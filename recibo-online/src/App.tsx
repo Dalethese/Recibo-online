@@ -1,31 +1,16 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import "./App.css";
-import { formatCurrency, formatDocument, formatPhone } from "./utils/masks";
 import { useReactToPrint } from "react-to-print";
-import type { ReceiptData } from "./types/recipient";
 import { ReceiptPrint } from "./components/RecipientPrint";
+import { useRecipient } from "./hooks/useRecipient";
 
 function App() {
-  const [data, setData] = useState<ReceiptData>({
-    valor: "",
-    pagador: "",
-    docPagador: "",
-    preposicao: "à",
-    referente: "",
-    emissor: "",
-    docEmissor: "",
-    telefone: "",
-    cidade: "",
-    data: new Date().toISOString().split("T")[0], // Data de hoje por padrão
-    formaPagamento: "Dinheiro",
-    duasVias: false,
-  });
+  const { data, handleChange, handleClear } = useRecipient();
   const contentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef,
     documentTitle: `Recibo_${data.pagador}`,
   });
-
   const handleGenerate = () => {
     // Validação básica
     const newErrors: { [key: string]: boolean } = {};
@@ -36,51 +21,6 @@ function App() {
     if (Object.keys(newErrors).length === 0) {
       handlePrint(); // Dispara o PDF se não houver erros
     }
-  };
-
-  const handleClear = () => {
-    // Reseta os dados para o estado inicial
-    setData({
-      valor: "",
-      pagador: "",
-      docPagador: "",
-      preposicao: "à",
-      referente: "",
-      emissor: "",
-      docEmissor: "",
-      telefone: "",
-      cidade: "",
-      data: new Date().toISOString().split("T")[0],
-      formaPagamento: "Dinheiro",
-      duasVias: false,
-    });
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => {
-    const target = e.target as HTMLInputElement;
-    const { name, value, type, checked } = target;
-
-    let finalValue: string | boolean = type === "checkbox" ? checked : value;
-
-    const camposDeTexto = ["pagador", "emissor", "cidade"];
-
-    if (camposDeTexto.includes(name) && typeof finalValue === "string") {
-      // Remove tudo que for número (0-9)
-      finalValue = finalValue.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
-    }
-
-    // Aplicação das Máscaras
-    if (name === "docPagador" || name === "docEmissor") {
-      finalValue = formatDocument(value);
-    } else if (name === "valor") {
-      finalValue = formatCurrency(value);
-    } else if (name === "telefone") {
-      finalValue = formatPhone(value);
-    }
-
-    setData((prev) => ({ ...prev, [name]: finalValue }));
   };
 
   return (
