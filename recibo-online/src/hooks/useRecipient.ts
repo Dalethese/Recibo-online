@@ -1,6 +1,12 @@
 import { useState } from "react";
 import type { ReceiptData } from "../types/recipient";
-import { formatDocument, formatCurrency, formatPhone } from "../utils/masks";
+import {
+  formatDocument,
+  formatCurrency,
+  formatPhone,
+  isValidCPF,
+  isValidCNPJ,
+} from "../utils/masks";
 
 export const useRecipient = () => {
   const [data, setData] = useState<ReceiptData>({
@@ -17,6 +23,29 @@ export const useRecipient = () => {
     formaPagamento: "Dinheiro",
     duasVias: false,
   });
+
+  const handleDocValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const digits = value.replace(/\D/g, "");
+
+    let errorMsg = "";
+
+    if (digits.length === 11) {
+      // É um CPF
+      if (!isValidCPF(digits)) errorMsg = "CPF inválido.";
+    } else if (digits.length === 14) {
+      // É um CNPJ
+      if (!isValidCNPJ(digits)) errorMsg = "CNPJ inválido.";
+    } else if (digits.length > 0) {
+      // Está no meio do caminho
+      errorMsg = "Documento incompleto (CPF ou CNPJ).";
+    }
+
+    // Aplica a mensagem (se estiver vazio "", o campo fica VÁLIDO)
+    e.target.setCustomValidity(errorMsg);
+
+    handleChange(e);
+  };
 
   const handleClear = () => {
     // Reseta os dados para o estado inicial
@@ -63,5 +92,5 @@ export const useRecipient = () => {
     setData((prev) => ({ ...prev, [name]: finalValue }));
   };
 
-  return { data, handleChange, handleClear };
+  return { data, handleChange, handleClear, handleDocValidation };
 };

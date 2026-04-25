@@ -35,7 +35,7 @@ export const InputField = ({
         inputMode={inputMode}
         required={required}
         maxLength={maxLength ? maxLength : NaN}
-        className={`p-3 bg-gray-50 border-gray-200 rounded-lg outline-none focus:border-blue-500 transition-all`}
+        className={`p-3 bg-gray-50 border-gray-200 rounded-lg outline-none  focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all`}
       />
     </div>
   );

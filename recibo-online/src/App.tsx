@@ -6,22 +6,28 @@ import { useRecipient } from "./hooks/useRecipient";
 import { InputField } from "./components/InputField";
 
 function App() {
-  const { data, handleChange, handleClear } = useRecipient();
+  const { data, handleChange, handleClear, handleDocValidation } =
+    useRecipient();
   const contentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef,
     documentTitle: `Recibo_${data.pagador}`,
   });
-  const handleGenerate = () => {
-    // Validação básica
-    const newErrors: { [key: string]: boolean } = {};
-    if (!data.valor || data.valor === "R$ 0,00") newErrors.valor = true;
-    if (!data.pagador) newErrors.pagador = true;
-    if (!data.emissor) newErrors.emissor = true;
-    if (!data.cidade) newErrors.cidade = true;
-    if (Object.keys(newErrors).length === 0) {
-      handlePrint(); // Dispara o PDF se não houver erros
-    }
+  // const handleGenerate = () => {
+  //   // Validação básica
+  //   const newErrors: { [key: string]: boolean } = {};
+  //   if (!data.valor || data.valor === "R$ 0,00") newErrors.valor = true;
+  //   if (!data.pagador) newErrors.pagador = true;
+  //   if (!data.emissor) newErrors.emissor = true;
+  //   if (!data.cidade) newErrors.cidade = true;
+  //   if (Object.keys(newErrors).length === 0) {
+  //     handlePrint(); // Dispara o PDF se não houver erros
+  //   }
+  // };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Impede a página de recarregar
+    handlePrint();
   };
 
   return (
@@ -32,7 +38,7 @@ function App() {
             Recibo Simples
           </h1>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <InputField
               label="Valor"
               name="valor"
@@ -60,7 +66,7 @@ function App() {
                 value={data.docPagador}
                 type="text"
                 inputMode="numeric"
-                onChange={handleChange}
+                onChange={handleDocValidation}
                 maxLength={18}
               />
             </div>
@@ -115,15 +121,16 @@ function App() {
               </div>
               <div className="flex flex-col">
                 <label className="text-sm font-bold text-gray-700 mb-1">
-                  CPF ou CNPJ (opcional)
+                  CPF ou CNPJ
                 </label>
                 <input
                   name="docEmissor"
                   type="text"
                   inputMode="numeric"
                   value={data.docEmissor}
-                  onChange={handleChange}
+                  onChange={handleDocValidation}
                   maxLength={18}
+                  required
                   className="p-3 bg-gray-50 border border-gray-200 rounded-lg outline-none focus:border-blue-500"
                 />
               </div>
@@ -225,8 +232,7 @@ function App() {
                 Limpar
               </button>
               <button
-                type="button"
-                onClick={handleGenerate}
+                type="submit"
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 shadow-md cursor-pointer"
               >
                 Gerar Recibo
