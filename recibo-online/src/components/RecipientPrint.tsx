@@ -10,7 +10,7 @@ export const ReceiptPrint = React.forwardRef<HTMLDivElement, Props>(
     return (
       <div
         ref={ref}
-        className="p-10 bg-white text-black font-serif w-[210mm] min-h-[100mm] border-2 border-gray-300"
+        className="p-10 bg-white text-black font-serif w-full min-h-[100mm] border-2 border-gray-300"
       >
         <div className="border-4 border-double border-black p-6">
           <header className="flex justify-between items-center mb-8 border-b-2 border-black pb-4">
