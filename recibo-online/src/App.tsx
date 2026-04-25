@@ -242,7 +242,7 @@ function App() {
             </form>
           </div>
 
-          <div className="print-only">
+          <div className="print-only bg-white -z-50">
             <ReceiptPrint data={data} ref={contentRef} />
           </div>
         </main>

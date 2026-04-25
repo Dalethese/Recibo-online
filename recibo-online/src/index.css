@@ -18,26 +18,33 @@ input[type="number"] {
 
 /* 2. Comportamento na Impressão (Mobile e PC) */
 @media print {
-  /* Remove as informações de cabeçalho/rodapé do navegador */
-  @page {
-    margin: 0;
+  /* 1. Esconde o conteúdo do formulário com força total */
+  .no-print,
+  #root > div:not(.print-only) {
+    display: none !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
   }
 
+  /* 2. Isola o container de impressão */
   .print-only {
     display: block !important;
+    visibility: visible !important;
     position: absolute !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-
-    /* O PULO DO GATO: */
-    /* Adicionamos uma margem de segurança para o conteúdo não cortar */
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    background-color: white !important; /* Garante fundo opaco */
     padding: 1.5cm !important;
     box-sizing: border-box;
   }
 
-  /* Esconde o resto como já vínhamos fazendo */
-  .no-print {
-    display: none !important;
+  /* 3. Garante que o body não tenha fundos ou cores do app */
+  body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 }
