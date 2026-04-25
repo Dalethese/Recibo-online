@@ -38,6 +38,24 @@ function App() {
     }
   };
 
+  const handleClear = () => {
+    // Reseta os dados para o estado inicial
+    setData({
+      valor: "",
+      pagador: "",
+      docPagador: "",
+      preposicao: "à",
+      referente: "",
+      emissor: "",
+      docEmissor: "",
+      telefone: "",
+      cidade: "",
+      data: new Date().toISOString().split("T")[0],
+      formaPagamento: "Dinheiro",
+      duasVias: false,
+    });
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -274,6 +292,7 @@ function App() {
             <div className="pt-6 flex justify-end gap-4">
               <button
                 type="button"
+                onClick={handleClear}
                 className="px-6 py-2 border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-50 cursor-pointer"
               >
                 Limpar
