@@ -5,36 +5,39 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.print-container-wrapper {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-}
 
 input[type="number"] {
   -moz-appearance: textfield;
 }
+/* 1. Comportamento na tela (Browser normal) */
+@media screen {
+  .print-only {
+    display: none !important; /* Esconde o recibo enquanto você preenche o form */
+  }
+}
+
+/* 2. Comportamento na Impressão (Mobile e PC) */
 @media print {
-  #root > * {
-    display: none !important;
+  /* Remove as informações de cabeçalho/rodapé do navegador */
+  @page {
+    margin: 0;
   }
 
-  .print-container-wrapper {
-    position: static !important;
-    display: block !important;
-  }
-
-  .print-container {
+  .print-only {
     display: block !important;
     position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 100% !important;
-    height: auto !important;
-    visibility: visible !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    /* O PULO DO GATO: */
+    /* Adicionamos uma margem de segurança para o conteúdo não cortar */
+    padding: 1.5cm !important;
+    box-sizing: border-box;
   }
 
-  body {
-    background: white !important;
+  /* Esconde o resto como já vínhamos fazendo */
+  .no-print {
+    display: none !important;
   }
 }
