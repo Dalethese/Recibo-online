@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 p-4 md:p-8 flex justify-center">
+      <div className="min-h-screen bg-gray-100 p-4 md:p-8 flex justify-center print:min-h-0 print:bg-white">
         <main className="bg-white p-6 rounded-xl shadow-lg w-full max-w-2xl">
           <h1 className="text-2xl font-bold text-gray-800 uppercase tracking-tight">
             Recibo Simples

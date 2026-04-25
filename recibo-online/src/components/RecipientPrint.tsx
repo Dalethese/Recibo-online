@@ -13,7 +13,7 @@ export const ReceiptPrint = React.forwardRef<HTMLDivElement, Props>(
         className="p-10 bg-white text-black font-serif border-2 border-gray-300"
         style={{
           width: "100%",
-          maxWidth: "19cm",
+          // maxWidth: "19cm",
           minHeight: "10cm",
         }}
       >
