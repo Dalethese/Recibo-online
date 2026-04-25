@@ -5,6 +5,11 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.print-container-wrapper {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
 
 input[type="number"] {
   -moz-appearance: textfield;
@@ -12,6 +17,11 @@ input[type="number"] {
 @media print {
   #root > * {
     display: none !important;
+  }
+
+  .print-container-wrapper {
+    position: static !important;
+    display: block !important;
   }
 
   .print-container {

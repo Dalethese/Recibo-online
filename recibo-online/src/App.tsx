@@ -238,7 +238,7 @@ function App() {
                 Gerar Recibo
               </button>
 
-              <div className="hidden">
+              <div className="print-container-wrapper">
                 <div className="print-container">
                   <ReceiptPrint data={data} ref={contentRef} />
                 </div>
