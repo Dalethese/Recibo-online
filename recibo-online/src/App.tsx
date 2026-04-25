@@ -3,6 +3,7 @@ import "./App.css";
 import { useReactToPrint } from "react-to-print";
 import { ReceiptPrint } from "./components/RecipientPrint";
 import { useRecipient } from "./hooks/useRecipient";
+import { InputField } from "./components/InputField";
 
 function App() {
   const { data, handleChange, handleClear } = useRecipient();
@@ -32,50 +33,36 @@ function App() {
           </h1>
 
           <form className="space-y-4">
-            <div className="flex flex-col">
-              <label className="text-sm font-bold text-gray-700 mb-1">
-                Valor
-              </label>
-              <input
-                name="valor"
-                value={data.valor}
+            <InputField
+              label="Valor"
+              name="valor"
+              placeholder="R$ 0,00"
+              value={data.valor}
+              type="text"
+              inputMode="numeric"
+              onChange={handleChange}
+              required
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <InputField
+                label="Pagador"
+                name="pagador"
+                value={data.pagador}
+                onChange={handleChange}
+                placeholder="Fulano de tal"
+                required
+                className="md:col-span-2"
+              />
+              <InputField
+                label="CPF ou CNPJ (opcional)"
+                name="docPagador"
+                value={data.docPagador}
                 type="text"
                 inputMode="numeric"
                 onChange={handleChange}
-                placeholder="R$ 0,00"
-                required
-                className="p-3 bg-gray-50 border-gray-200 rounded-lg outline-none focus:border-blue-500 transition-all"
+                maxLength={18}
               />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="md:col-span-2 flex flex-col">
-                <label className="text-sm font-bold text-gray-700 mb-1">
-                  Pagador
-                </label>
-                <input
-                  name="pagador"
-                  value={data.pagador}
-                  onChange={handleChange}
-                  placeholder="Fulano de tal"
-                  required
-                  className="p-3 bg-gray-50 border-gray-200 rounded-lg outline-none focus:border-blue-500 transition-all"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-bold text-gray-700 mb-1">
-                  CPF ou CNPJ (opcional)
-                </label>
-                <input
-                  name="docPagador"
-                  value={data.docPagador}
-                  type="text"
-                  inputMode="numeric"
-                  onChange={handleChange}
-                  maxLength={18}
-                  className="p-3 bg-gray-50 border-gray-200 rounded-lg outline-none focus:border-blue-500 transition-all"
-                />
-              </div>
             </div>
 
             {/* Referente e Preposições */}

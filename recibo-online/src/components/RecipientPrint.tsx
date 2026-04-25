@@ -26,10 +26,14 @@ export const ReceiptPrint = React.forwardRef<HTMLDivElement, Props>(
               <span className="font-bold underline">
                 {data.pagador || "____________________"}
               </span>
-              , CPF/CNPJ nº{" "}
-              <span className="font-bold">
-                {data.docPagador || "____________________"}
-              </span>
+              {data.docPagador ? (
+                <>
+                  , {data.docPagador.length <= 14 ? ", CPF" : ", CNPJ"} nº{" "}
+                  <span className="font-bold">{data.docPagador}</span>
+                </>
+              ) : (
+                ""
+              )}
               , a importância de <span className="font-bold">{data.valor}</span>
               {" referente "}
               {data.preposicao}{" "}
