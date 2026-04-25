@@ -9,42 +9,43 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-/* 1. Comportamento na tela (Browser normal) */
+
+/* Estilo para a tela do computador/tablet (não afeta a impressão) */
 @media screen {
   .print-only {
-    display: none !important; /* Esconde o recibo enquanto você preenche o form */
+    display: none !important;
   }
 }
 
-/* 2. Comportamento na Impressão (Mobile e PC) */
+/* Estilo exclusivo para a Impressão */
 @media print {
-  /* 1. Esconde o conteúdo do formulário com força total */
-  .no-print,
-  #root > div:not(.print-only) {
+  /* 1. Esconde a interface do App */
+  .no-print {
     display: none !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    visibility: hidden !important;
   }
 
-  /* 2. Isola o container de impressão */
+  /* 2. O Recibo toma conta de tudo */
   .print-only {
     display: block !important;
-    visibility: visible !important;
-    position: absolute !important;
-    left: 0 !important;
+    position: fixed !important;
     top: 0 !important;
-    width: 100% !important;
-    background-color: white !important; /* Garante fundo opaco */
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: white !important;
+    z-index: 999999 !important;
     padding: 1.5cm !important;
-    box-sizing: border-box;
   }
 
-  /* 3. Garante que o body não tenha fundos ou cores do app */
-  body {
-    background: white !important;
-    margin: 0 !important;
-    padding: 0 !important;
+  /* 3. Força o navegador a mostrar cores e imagens de fundo */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 4. Remove margens do sistema */
+  @page {
+    margin: 0;
+    size: auto;
   }
 }

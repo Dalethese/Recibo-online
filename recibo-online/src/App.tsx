@@ -37,7 +37,6 @@ function App() {
           <h1 className="text-2xl font-bold text-gray-800 uppercase tracking-tight">
             Recibo Simples
           </h1>
-
           <div className="no-print">
             <form onSubmit={handleSubmit} className="space-y-4">
               <InputField
@@ -241,11 +240,10 @@ function App() {
               </div>
             </form>
           </div>
-
-          <div className="print-only bg-white z-50">
-            <ReceiptPrint data={data} ref={contentRef} />
-          </div>
         </main>
+        <div className="print-only bg-white z-50">
+          <ReceiptPrint data={data} ref={contentRef} />
+        </div>
       </div>
     </>
   );
