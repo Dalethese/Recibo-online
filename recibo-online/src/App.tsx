@@ -239,7 +239,9 @@ function App() {
               </button>
 
               <div className="hidden">
-                <ReceiptPrint data={data} ref={contentRef} />
+                <div className="print-container">
+                  <ReceiptPrint data={data} ref={contentRef} />
+                </div>
               </div>
             </div>
           </form>
